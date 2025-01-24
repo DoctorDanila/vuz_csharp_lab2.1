@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace vuz_csharp_lab2._1
@@ -93,20 +94,73 @@ namespace vuz_csharp_lab2._1
 
     internal class Program
     {
+        static bool SetBool()
+        {
+            string tmp;
+            do
+            {
+                Console.WriteLine("Введите булево значение: ");
+                tmp = Console.ReadLine();
+                if (tmp.ToString() == "1" || tmp.ToString().ToLower() == "true")
+                {
+                    return true;
+                    break;
+                }
+                if (tmp.ToString() == "0" || tmp.ToString().ToLower() == "false")
+                {
+                    return false;
+                    break;
+                }
+                Console.WriteLine("Нужно ввести булево значение (true, false, 0, 1)");
+            } while (true);
+        }
+
+        static bool IsValidInt(string name)
+        {
+            return Regex.IsMatch(name, @"^[0-9]+$");
+        }
+
+        static int SetInt()
+        {
+            string tmp;
+            do
+            {
+                Console.WriteLine("Введите целое число: ");
+                tmp = Console.ReadLine();
+                if (IsValidInt(tmp))
+                {
+                    return Convert.ToInt32(tmp);
+                    break;
+                }
+                Console.WriteLine("Нужно ввести целое число");
+            } while (true);
+        }
         static void Main(string[] args)
         {
+            bool a, b;
+            int n;
+            Console.WriteLine("Со статусом работы и без ошибки (true, false)");
+            a = SetBool();
+            b = SetBool();
             // Создаем устройство с статусом работы и без ошибки
-            DeviceStatus device1 = new DeviceStatus(true, false);
+            DeviceStatus device1 = new DeviceStatus(a, b);
 
             // Проверяем статус устройства
             Console.WriteLine(device1.ToString()); // Выводит: DeviceStatus: True, False
 
+            Console.WriteLine("С ошибкой (false, true)");
+            a = SetBool();
+            b = SetBool();
             // Создаем устройство с ошибкой
-            DeviceStatus device2 = new DeviceStatus(false, true);
+            DeviceStatus device2 = new DeviceStatus(a, b);
             Console.WriteLine(device2.ToString()); // Выводит: DeviceStatus: False, True
-
+            
+            Console.WriteLine("Создаем расширенные настройки для устройства (true, false)");
+            a = SetBool();
+            b = SetBool();
+            n = SetInt();
             // Создаем расширенные настройки для устройства
-            AdvancedDeviceSettings advancedSettings1 = new AdvancedDeviceSettings(true, false, 12345);
+            AdvancedDeviceSettings advancedSettings1 = new AdvancedDeviceSettings(a, b, n);
             advancedSettings1.PrintInfo();
 
             // Проверяем эквивалентность полей и настроек
@@ -117,7 +171,12 @@ namespace vuz_csharp_lab2._1
 
             Console.WriteLine("============================================================");
 
-            AdvancedDeviceSettings advancedSettings2 = new AdvancedDeviceSettings(true, true, 1234);
+            Console.WriteLine("Создаем расширенные настройки для устройства (true, true)");
+            a = SetBool();
+            b = SetBool();
+            n = SetInt();
+
+            AdvancedDeviceSettings advancedSettings2 = new AdvancedDeviceSettings(a, b, n);
             advancedSettings2.PrintInfo();
 
             // Проверяем эквивалентность полей и настроек
